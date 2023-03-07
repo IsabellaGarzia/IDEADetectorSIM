@@ -44,7 +44,7 @@ class Ladder{
 
 public:
 
-  enum Ltype {pixel=1, strip};
+  enum Ltype {pixel=1, strip=2, radiator=0};
   enum Lgtype {plane=0, spherical};
 
   // A free function, returning void, that takes a const ReadOut& as an argument.

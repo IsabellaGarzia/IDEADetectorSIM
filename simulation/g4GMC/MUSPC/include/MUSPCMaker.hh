@@ -136,6 +136,7 @@ private:
   std::vector<double> _RadiatInRasius;
   std::vector<double> _RadiatHalfLengths;
   std::vector<int>    _RadiatNmShells;
+  std::vector<int >   _RadiatPhiSectors;
   std::vector< std::vector<std::string> > _RadiatShellsMaterial;
   std::vector< std::vector<double> > _RadiatShellsThick;
   std::vector< double > _RadiatersThickness;

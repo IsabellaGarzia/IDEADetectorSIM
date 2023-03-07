@@ -41,6 +41,10 @@ public:
     return _RadiatNmShells;
   }
 
+  std::vector<int> getRadiatNmPhiSectors() const {
+    return _RadiatPhiSectors;
+  }
+
   std::vector< std::vector<std::string> > getRadiatShellsMaterial() const {
     return _RadiatShellsMaterial;
   }
@@ -61,6 +65,7 @@ protected:
   std::vector<double> _RadiatOutRasius;
   std::vector<double> _RadiatHalfLengths;
   std::vector<int>    _RadiatNmShells;
+  std::vector<int>    _RadiatPhiSectors;
   std::vector< std::vector<std::string> > _RadiatShellsMaterial;
   std::vector< std::vector<double> > _RadiatShellsThick;
   std::vector< double > _RadiatorsThickness;

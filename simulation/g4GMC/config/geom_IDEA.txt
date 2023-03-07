@@ -24,7 +24,7 @@ string GDMLFileName     = "g4-IDEA.gdml";
 #include "pshw_v00-IDEA_CEPC.txt"
 #include "bmpipe_v00-IDEA_CEPC.txt"
 #include "drfpic_v00-IDEA_CEPC.txt"
-//#include "muspc_v00-IDEA_CEPC.txt"
+#include "muspc_v00-IDEA_CEPC.txt"
 
 // Uncomment max one vertex tracker.
 //#include "config/ModPxVertex.txt"
@@ -93,7 +93,6 @@ string GDMLFileName     = "g4-IDEA.gdml";
 vector<string> gmc.materials =
   { "GasHe_90Isob_10", "GasHe_85Isob_15", "Kapton"
   };
-
 //// Control printout of element and material lists.
 //bool g4.printElements  = false;
 //bool g4.printMaterials = false;

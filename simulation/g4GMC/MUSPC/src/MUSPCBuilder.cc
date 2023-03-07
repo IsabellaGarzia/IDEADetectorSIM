@@ -25,7 +25,7 @@
 #include "GeomService.hh"
 #include "GeomHandle.hh"
 #include "findMaterialOrThrow.hh"
-#include <SensitiveDetectorName.hh>
+#include "SensitiveDetectorName.hh"
 
 using namespace std;
 using namespace svx;
@@ -116,9 +116,13 @@ VolumeInfo MUSPCBuilder::constructTracker( G4LogicalVolume* mother/*, double zOf
         bool isFw = (ily->getLayerZone()==Layer::forward);
 
         boost::shared_ptr<Ladder> ild = ily->getLadder(0);
+
         VolumeInfo LadderInfo = buildLadder(*ild);
         sprintf(vol,"musldvol-L%03dLd%05ld",ild->Id().getLayer(),ild->Id().getLadder());
+
+
 //        ily->nLaddersPerSector();
+
 
         for (unsigned long iLd=0; iLd < ily->nLadders(); ++iLd ){
 
@@ -261,8 +265,12 @@ VolumeInfo MUSPCBuilder::buildLadder(Ladder &tld){
       LadderInfo.logical = new G4LogicalVolume(LadderInfo.solid,gmc::findMaterialOrThrow( tld.getDetail()->materialName(0).c_str() ),volName,0,0,0);
     }
     else {
+      std::cout<<"******************"<<std::endl;
+      std::cout<<"************** tld.getDetail()->materialName(0).c_str() = "<<tld.getDetail()->materialName(0).c_str()<<std::endl;
+      //std::cout<<"****************"<<std::endl;
+      //
       G4Material* matMother = gmc::findMaterialOrThrow( config.getString("muspc.motherVolMat","G4_AIR") );
-      LadderInfo.logical = new G4LogicalVolume(LadderInfo.solid,matMother/*gmc::findMaterialOrThrow( "G4_Galactic" )*/,volName,0,0,0);
+      LadderInfo.logical = new G4LogicalVolume(LadderInfo.solid,matMother/*gmc::findMaterialOrThrow( "G4_Galactic" )*/ ,volName,0,0,0);
       char tShapeName[100], tVolName[100];
 
       double iYpos = -0.5*tld.getDetail()->thickness();
@@ -323,8 +331,12 @@ void MUSPCBuilder::instantiateSensitiveDetectors( const std::string hitsCollecti
   SDman->AddNewDetector(muspctrackerSD);
 
 }
+  
 
 void MUSPCBuilder::constructRadiator( G4LogicalVolume* muspcmother/*, double zOff*/ ){
+
+
+  std::cout<<"+++++++++++++++++constructRadiator+++++++++++++++++"<<std::endl;
 
   // Master geometry for the tracker.
   GeomHandle<MUSPCtracker> muspctracker;
@@ -340,17 +352,12 @@ void MUSPCBuilder::constructRadiator( G4LogicalVolume* muspcmother/*, double zOf
     e.error();
   } else {
 
-    G4VisAttributes* visAtt = new G4VisAttributes(true, G4Colour::Grey() );
+    G4VisAttributes* visAtt = new G4VisAttributes(true, G4Colour::Red() );
     visAtt->SetForceSolid(true);
     visAtt->SetForceAuxEdgeVisible (true);
     visAtt->SetVisibility(true);
-    visAtt->SetDaughtersInvisible(false);
+    visAtt->SetDaughtersInvisible(true);
 
-//    G4VisAttributes* visAtt1 = new G4VisAttributes(true, G4Colour::Green() );
-//    visAtt1->SetForceSolid(true);
-//    visAtt1->SetForceAuxEdgeVisible (true);
-//    visAtt1->SetVisibility(true);
-//    visAtt1->SetDaughtersInvisible(false);
 
     G4Material* matMother = gmc::findMaterialOrThrow( config.getString("muspc.motherVolMat","G4_AIR") );
 //    bool debugLayer =  config.getBool("muspc.debugLayer",false);
@@ -367,9 +374,12 @@ void MUSPCBuilder::constructRadiator( G4LogicalVolume* muspcmother/*, double zOf
         if (muspcradiator->getRadiatType()[iLy]==0) { //Barrel layers
 
           LayerInfo.solid = new G4Tubs(shape,muspcradiator->getRadiatInRasius()[iLy],
-              muspcradiator->getRadiatInRasius()[iLy]+muspcradiator->getRadiatorsThickness()[iLy],
-              muspcradiator->getRadiatHalfLengths()[iLy],
-              0.0,360.0*CLHEP::degree);
+				       muspcradiator->getRadiatInRasius()[iLy]+muspcradiator->getRadiatorsThickness()[iLy],
+				       muspcradiator->getRadiatHalfLengths()[iLy],
+				       0.0,360.0*CLHEP::degree);
+	  //G4Polyhedron* pA = G4Box("boxA",3*m,3*m,3*m).CreatePolyhedron();
+	  //LayerInfo.solid = new G4Box(shape,3,3,3
+	  //);
           LayerInfo.logical = new G4LogicalVolume(LayerInfo.solid,matMother,vol,0,0,0);
 
           char tShapeName[100], tVolName[100];
@@ -408,7 +418,7 @@ void MUSPCBuilder::constructRadiator( G4LogicalVolume* muspcmother/*, double zOf
               false,                   // no boolean operations
               0,                       // copy number
               checkOverlap);
-        } else if (muspcradiator->getRadiatType()[iLy]==1) { //Forward layers
+        } /*else if (muspcradiator->getRadiatType()[iLy]==1) { //Forward layers
 
           LayerInfo.solid = new G4Tubs(shape,muspcradiator->getRadiatInRasius()[iLy],
               muspcradiator->getRadiatOutRasius()[iLy],
@@ -442,7 +452,10 @@ void MUSPCBuilder::constructRadiator( G4LogicalVolume* muspcmother/*, double zOf
                 0,                  // copy number
                 checkOverlap);
             tphysRadSh->GetCopyNo(); //just to remove the warning during compiling
-            /*if (ishell==0)*/ tlogicRadSh->SetVisAttributes(visAtt);
+	  */
+            /*if (ishell==0)*/ 
+	/*
+	tlogicRadSh->SetVisAttributes(visAtt);
 //            if (ishell==1) tlogicRadSh->SetVisAttributes(visAtt1);
             iZpos += 0.5*muspcradiator->getRadiatShellsThick()[iLy][ishell];
           }
@@ -464,7 +477,7 @@ void MUSPCBuilder::constructRadiator( G4LogicalVolume* muspcmother/*, double zOf
               1,                       // copy number
               checkOverlap);
 
-        }
+        }*/
       } // Layer loop
 
   }

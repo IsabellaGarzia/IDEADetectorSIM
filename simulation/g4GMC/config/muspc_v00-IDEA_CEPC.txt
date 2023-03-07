@@ -1,0 +1,79 @@
+//
+// Warning:  do not write 10000. as 10,000.; it will be read as two numbers (10., 0.).
+
+bool hasMUSPC      = true;
+
+string muspc.motherVolMat = "G4_AIR";
+//vector<double> g4.detSysCenter = { 0.0, 0.0, 0.0 };
+vector<string> cdch.materials =
+  { "G10_FR4","EGlass","Epotek301","C_19_H_20_O_4","C_10_H_18_O_4","C_9_H_22_N_2","CarbonFiber","CarbonFiber_resin"
+  };
+//vector<string> muspc.materials =
+//  {  };
+
+string muspc.extFile          =    "";
+double muspc.z0               =      0;
+
+int    muspc.geomType         =    00;   //decimal digit:magior version, unit digit:minor version  
+                                       //  00:dummy geometry, the ladder has cylindrical shape instead of plane, there are no supports and others details
+
+//double muspc.voxelization     =     0;   //Choose voxelization method for the gas volumes that contain wires, negative: default computation, 0: voxelization off, positive: smartless value
+
+bool   muspc.doDetailedSurfCheck = false;
+bool   muspc.debugLayer       = false;
+
+// Barrel MUSPC parameters
+int    muspc.Brl.nLayers                    = 5;
+vector<double> muspc.Brl.LayersInRad        = {4520,4560,4880,4920,5240};  //4520 mm
+vector<int> muspc.Brl.nPhiSectors           = {8,8,8,8,8};
+vector<int> muspc.Brl.nLaddersPerSector     = {45,45,45,45,50};
+vector<double> muspc.Brl.LaddersHalfLength  = {50,50,50,50,52.6};  // Per Layer (The ladder are supposed to be equal for one layer)
+vector<double> muspc.Brl.LaddersThickness   = {20,300,20,300,20}; // Per Layer  0.95
+vector<int> muspc.Brl.ROTypes               = {1,0,1,0,1}; //1: Pixel; 2: Strip // Per Layer
+vector<double> muspc.Brl.ROfirstSideDim     = {0.7,1.0,0.7,1.0,0.7}; // Per Layer
+vector<double> muspc.Brl.ROfirstSideInsul   = {1.5,1.0,1.5,1.0,1.5}; // Per Layer
+vector<double> muspc.Brl.ROSecondSideDim    = {0.7,1.0,0.7,1.0,0.7}; // Per Layer
+vector<double> muspc.Brl.ROSecondSideInsul  = {1.5,1.0,1.5,1.0,1.5}; // Per Layer
+vector<double> muspc.Brl.ROangle            = {0.0,0.0,0.0,0.0,0.0}; // Per Layer
+
+
+// First Barrel Layer Ladder description
+int    muspc.Brl.l1.ld.nShells =      10;
+vector<string> muspc.Brl.l1.ld.ShellsMaterial = { "G10_FR4", "G4_Cu","C_19_H_20_O_4","G4_Cu","Kapton","CarbonFiber","G4_Cu","CarbonFiber", "G4_Cu","G4_Si"};
+vector<double> muspc.Brl.l1.ld.ShellsThickness = { 1.60, 0.035, 6.0, 0.005, 0.05, 0.0001, 0.035, 0.1, 0.035, 1.60};
+int    muspc.Brl.l1.ro.nShells =      1;
+vector<int> muspc.Brl.l1.ro.ShellIds = { 0 };  //id of the ladder shells
+
+
+int    muspc.Brl.l2.ld.nShells =      1;
+vector<string> muspc.Brl.l2.ld.ShellsMaterial = { "G4_Fe"};
+vector<double> muspc.Brl.l2.ld.ShellsThickness = { 300.0};
+int    muspc.Brl.l2.ro.nShells =      1;
+vector<int> muspc.Brl.l2.ro.ShellIds = { 0 };
+
+int    muspc.Brl.l3.ld.nShells =      10;
+vector<string> muspc.Brl.l3.ld.ShellsMaterial = { "G10_FR4", "G4_Cu","C_19_H_20_O_4","G4_Cu","Kapton","CarbonFiber","G4_Cu","CarbonFiber", "G4_Cu","G4_Si"};
+vector<double> muspc.Brl.l3.ld.ShellsThickness = { 1.60, 0.035, 6.0, 0.005, 0.05, 0.0001, 0.035, 0.1, 0.035, 1.60};
+int    muspc.Brl.l3.ro.nShells =      1;
+vector<int> muspc.Brl.l3.ro.ShellIds = { 0 };
+
+int    muspc.Brl.l4.ld.nShells =      1;
+vector<string> muspc.Brl.l4.ld.ShellsMaterial = { "G4_Fe"};
+vector<double> muspc.Brl.l4.ld.ShellsThickness = { 300.0};
+int    muspc.Brl.l4.ro.nShells =      1;
+vector<int> muspc.Brl.l4.ro.ShellIds = { 0 };
+
+int    muspc.Brl.l5.ld.nShells =      10;
+vector<string> muspc.Brl.l5.ld.ShellsMaterial = { "G10_FR4", "G4_Cu","C_19_H_20_O_4","G4_Cu","Kapton","CarbonFiber","G4_Cu","CarbonFiber", "G4_Cu","G4_Si"};
+vector<double> muspc.Brl.l5.ld.ShellsThickness = { 1.60, 0.035, 6.0, 0.005, 0.05, 0.0001, 0.035, 0.1, 0.035, 1.60};
+int    muspc.Brl.l5.ro.nShells =      1;
+vector<int> muspc.Brl.l5.ro.ShellIds = { 0 };
+
+// Barrel MUSPC Radiators
+
+
+//
+// This tells emacs to view this file in c++ mode.
+// Local Variables:
+// mode:c++
+// End:
